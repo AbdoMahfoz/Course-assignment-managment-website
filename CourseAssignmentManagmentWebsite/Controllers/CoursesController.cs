@@ -13,12 +13,19 @@ namespace CourseAssignmentManagmentWebsite.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Courses
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-            Course[] courses = (from entity in db.CourseStudents
-                                where entity.Student.ApplicationUserId == User.Identity.GetUserId()
-                                select entity.Course).ToArray();
-            return View();
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                var Userid = User.Identity.GetUserId();
+                var courses = (from entity in db.CourseStudents
+                               where entity.Student.ApplicationUserId == Userid
+                               select entity.Course);
+                return View(courses);
+            }
+            return View("Detail", (from entity in db.Courses
+                                   where entity.Id == id
+                                   select entity).Single());
         }
     }
 }

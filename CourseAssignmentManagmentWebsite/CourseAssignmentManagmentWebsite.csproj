@@ -195,6 +195,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -204,9 +205,18 @@
     <Compile Include="Migrations\201905071529410_InitialCreate.Designer.cs">
       <DependentUpon>201905071529410_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905072018312_CoreModels.cs" />
+    <Compile Include="Migrations\201905072018312_CoreModels.Designer.cs">
+      <DependentUpon>201905072018312_CoreModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905072039092_Tied courses to students and professors.cs" />
+    <Compile Include="Migrations\201905072039092_Tied courses to students and professors.Designer.cs">
+      <DependentUpon>201905072039092_Tied courses to students and professors.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CoreModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -291,6 +301,15 @@
     <EmbeddedResource Include="Migrations\201905071529410_InitialCreate.resx">
       <DependentUpon>201905071529410_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905072018312_CoreModels.resx">
+      <DependentUpon>201905072018312_CoreModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905072039092_Tied courses to students and professors.resx">
+      <DependentUpon>201905072039092_Tied courses to students and professors.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Courses\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

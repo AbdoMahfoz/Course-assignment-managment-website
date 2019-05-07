@@ -32,5 +32,12 @@ namespace CourseAssignmentManagmentWebsite.Models
 
         public DbSet<Student> Students { get; set; }
         public DbSet<Professor> Professors { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Submission> Submissions { get; set; }
+        public DbSet<AssignmentSubmission> AssignmentSubmissions { get; set; }
+        public DbSet<CourseAssignment> CourseAssignments { get; set; }
+        public DbSet<CourseStudent> CourseStudents { get; set; }
+        public DbSet<CourseProfessor> CourseProfessors { get; set; }
     }
 }

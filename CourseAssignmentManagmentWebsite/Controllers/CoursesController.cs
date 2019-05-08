@@ -35,6 +35,20 @@ namespace CourseAssignmentManagmentWebsite.Controllers
                         select e).Any();
             }
         }
+        private int GetStudentId()
+        {
+            string userId = User.Identity.GetUserId();
+            return (from e in db.Students
+                    where e.ApplicationUserId == userId
+                    select e.Id).Single();
+        }
+        private int GetProfessorId()
+        {
+            string userId = User.Identity.GetUserId();
+            return (from e in db.Professors
+                    where e.ApplicationUserId == userId
+                    select e.Id).Single();
+        }
         // GET: Courses
         public ActionResult Index()
         {
@@ -161,6 +175,23 @@ namespace CourseAssignmentManagmentWebsite.Controllers
                 {
                     return RedirectToAction("Index");
                 }
+                int studentId = GetStudentId();
+                return View(new CourseDetailViewModel
+                {
+                    Course = (from entity in db.Courses
+                              where entity.Id == Id
+                              select entity).Single(),
+                    Assignments = from entity in db.Assignments
+                                  where entity.CourseId == Id
+                                  orderby entity.Id ascending
+                                  select new Pair<Assignment, bool>
+                                  {
+                                      First = entity,
+                                      Second = (from e in db.Submissions
+                                                where e.AssignmentId == entity.Id && e.StudentId == studentId
+                                                select e).Any()
+                                  }
+                });
             }
             else
             {
@@ -168,23 +199,24 @@ namespace CourseAssignmentManagmentWebsite.Controllers
                 {
                     return RedirectToAction("Index");
                 }
+                int professorId = GetProfessorId();
+                return View(new CourseDetailViewModel
+                {
+                    Course = (from entity in db.Courses
+                              where entity.Id == Id
+                              select entity).Single(),
+                    Assignments = from entity in db.Assignments
+                                  where entity.CourseId == Id
+                                  orderby entity.Id ascending
+                                  select new Pair<Assignment, bool>
+                                  {
+                                      First = entity,
+                                      Second = (from e in db.Submissions
+                                                where e.AssignmentId == entity.Id && e.StudentId == professorId
+                                                select e).Any()
+                                  }
+                });
             }
-            return View(new CourseDetailViewModel
-            {
-                Course = (from entity in db.Courses
-                          where entity.Id == Id
-                          select entity).Single(),
-                Assignments = from entity in db.Assignments
-                              where entity.CourseId == Id
-                              orderby entity.Id ascending
-                              select new Pair<Assignment, bool>
-                              {
-                                  First = entity,
-                                  Second = (from e in db.Submissions
-                                            where e.AssignmentId == entity.Id
-                                            select e).Any()
-                              }
-            });
         }
         [Authorize(Roles="student")]
         public ActionResult Enroll(string Id)

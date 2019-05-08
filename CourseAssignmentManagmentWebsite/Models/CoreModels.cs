@@ -34,9 +34,6 @@ namespace CourseAssignmentManagmentWebsite.Models
         [DataType(DataType.Upload)]
         public byte[] Statement { get; set; }
 
-        [NotMapped]
-        public HttpPostedFileBase file { get; set; }
-
         [Required]
         public string StatementType { get; set; }
 
@@ -63,6 +60,8 @@ namespace CourseAssignmentManagmentWebsite.Models
         [Required]
         [DataType(DataType.Upload)]
         public byte[] Solution { get; set; }
+
+        public string SolutionType { get; set; }
     }
     public class CourseStudent
     {

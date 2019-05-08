@@ -230,6 +230,10 @@
     <Compile Include="Migrations\201905081401107_StatementTyoeInAssignment.Designer.cs">
       <DependentUpon>201905081401107_StatementTyoeInAssignment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905082015351_AddedSubmissionTypeColumn.cs" />
+    <Compile Include="Migrations\201905082015351_AddedSubmissionTypeColumn.Designer.cs">
+      <DependentUpon>201905082015351_AddedSubmissionTypeColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -344,6 +348,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905081401107_StatementTyoeInAssignment.resx">
       <DependentUpon>201905081401107_StatementTyoeInAssignment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905082015351_AddedSubmissionTypeColumn.resx">
+      <DependentUpon>201905082015351_AddedSubmissionTypeColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

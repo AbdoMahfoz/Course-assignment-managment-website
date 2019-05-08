@@ -32,7 +32,7 @@
                 {
                     if (e.First)
                     {
-                        <a href="@Url.Action("Detail", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-primary">View Details</a>
+                        <a href="@Url.Action("Detail", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-default">View Details</a>
                     }
                     else
                     {
@@ -41,8 +41,8 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("Detail", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-primary">View Details</a>
-                    <a href="@Url.Action("SetStudents", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-primary">Set Students</a>
+                    <a href="@Url.Action("Detail", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-default">View Details</a>
+                    <a href="@Url.Action("SetStudents", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-default">Set Students</a>
                 }
             </div>
         </div>

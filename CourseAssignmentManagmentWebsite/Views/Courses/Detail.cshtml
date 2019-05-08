@@ -14,7 +14,7 @@
     <h1 class="col-md-10">Assignments</h1>
     @if(User.IsInRole("professor"))
     {
-        <a class="margin-top-20 pull-right col-md-2 btn btn-primary" href="@Url.Action("Create", "Assignments", new { Model.Course.Id })">Add Assignment</a>
+        <a class="margin-top-20 col-md-2 btn btn-primary" href="@Url.Action("Create", "Assignments", new { Model.Course.Id })">Add Assignment</a>
     }
 </div>
 <hr/>
@@ -23,21 +23,17 @@
     {
         foreach(var assign in Model.Assignments)
         {
-            if(assign.Second)
-            {
-                Html.Raw("<div class=\"well col-md-12 warning\">");
-            }
-            else
-            {
-                Html.Raw("<div class=\"well col-md-12 alert\">");
-            }
-            <div class="col-md-6">
-                <h2>Assignment @((++i).ToString())</h2>
+            <div class="well col-md-12">
+                <div class="col-md-10">
+                    <h2>Assignment @((++i).ToString())</h2>
+                </div>
+                <div class="col-md-2">
+                    <a href="@Url.Action("Index", "Assignments", new { assign.First.Id })" class="btn btn-block btn-default">View solutions</a>
+                </div>
+                <div class="col-md-2">
+                    <a href="@Url.Action("Forum", "Assignments", new { assign.First.Id })" class="btn btn-block btn-default">View forum</a>
+                </div>
             </div>
-            <div class="col-md-6">
-                <a href="@Url.Action("Index", "Assignments", new { assign.First.Id })" class="btn btn-primary">Go to assignment page</a>
-            </div>
-            Html.Raw("</div>");
         }
     }
     else

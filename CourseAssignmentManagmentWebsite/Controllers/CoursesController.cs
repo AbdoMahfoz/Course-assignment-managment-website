@@ -17,18 +17,26 @@ namespace CourseAssignmentManagmentWebsite.Controllers
         public ActionResult Index()
         {
             var Userid = User.Identity.GetUserId();
-            IQueryable<Course> courses = null;
+            IQueryable<Pair<bool, Course>> courses = null;
             if(User.IsInRole("student"))
             {
                 courses = from entity in db.CourseStudents
                           where entity.Student.ApplicationUserId == Userid
-                          select entity.Course;
+                          select new Pair<bool, Course>
+                          {
+                              First = entity.IsEnrolled,
+                              Second = entity.Course
+                          };
             }
             else
             {
                 courses = from entity in db.Courses
                           where entity.Professor.ApplicationUserId == Userid
-                          select entity;
+                          select new Pair<bool, Course>
+                          {
+                              First = true,
+                              Second = entity
+                          };
             }
             return View(courses);
         }
@@ -52,19 +60,42 @@ namespace CourseAssignmentManagmentWebsite.Controllers
         [Authorize(Roles = "professor")]
         public ActionResult SetStudents(string Id)
         {
-            return View(new CourseSetStudentViewModel
+            string userId = User.Identity.GetUserId();
+            int id = (from e in db.Professors
+                      where e.ApplicationUserId == userId
+                      select e.Id).Single();
+            if ((from e in db.Courses
+                 where e.ProfessorId == id && e.Id == Id
+                 select e).Any())
             {
-                CourseID = Id,
-                Students = from entity in db.CourseStudents
-                           where entity.CourseId == Id
-                           select entity.Student,
-                LastError = ""
-            });
+                return View(new CourseSetStudentViewModel
+                {
+                    CourseID = Id,
+                    Students = from entity in db.CourseStudents
+                               where entity.CourseId == Id
+                               select entity.Student,
+                    LastError = ""
+                });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
         [HttpPost]
         [Authorize(Roles = "professor")]
         public ActionResult SetStudents(int NewStudentId, string CourseId)
         {
+            string userId = User.Identity.GetUserId();
+            int id = (from e in db.Professors
+                      where e.ApplicationUserId == userId
+                      select e.Id).Single();
+            if (!(from e in db.Courses
+                 where e.ProfessorId == id && e.Id == CourseId
+                 select e).Any())
+            {
+                return RedirectToAction("Index");
+            }
             var res = new CourseSetStudentViewModel
             {
                 CourseID = CourseId,
@@ -96,6 +127,16 @@ namespace CourseAssignmentManagmentWebsite.Controllers
         }
         public ActionResult Detail(string Id)
         {
+            string userId = User.Identity.GetUserId();
+            int studentId = (from e in db.Students
+                             where e.ApplicationUserId == userId
+                             select e.Id).Single();
+            if (!(from e in db.CourseStudents
+                  where e.StudentId == studentId && e.CourseId == Id && e.IsEnrolled == true
+                  select e).Any())
+            {
+                return RedirectToAction("Index");
+            }
             return View(new CourseDetailViewModel
             {
                 Course = (from entity in db.Courses
@@ -112,6 +153,34 @@ namespace CourseAssignmentManagmentWebsite.Controllers
                                             select e).Any()
                               }
             });
+        }
+        [Authorize(Roles="student")]
+        public ActionResult Enroll(string Id)
+        {
+            string userId = User.Identity.GetUserId();
+            int studentId = (from e in db.Students
+                             where e.ApplicationUserId == userId
+                             select e.Id).Single();
+            string res = "";
+            if (!string.IsNullOrWhiteSpace(Id))
+            {
+                db.CourseStudents.Add(new CourseStudent
+                {
+                    StudentId = studentId,
+                    CourseId = Id,
+                    IsEnrolled = false
+                });
+                db.SaveChanges();
+                string courseName = (from e in db.Courses
+                                     where e.Id == Id
+                                     select e.Name).Single();
+                res = $"Succefully enrolled in {courseName}, please ask your professor to accept your enrollment";
+            }
+            return View(new Pair<string, IQueryable<Course>>(res, from e in db.Courses
+                                                                  where !(from e2 in db.CourseStudents
+                                                                          where e2.StudentId == studentId && e2.CourseId == e.Id
+                                                                          select e2).Any()
+                                                                  select e));
         }
     }
 }

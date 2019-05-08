@@ -34,3 +34,20 @@ textarea {
 .margin-top-5 {
     margin-top: 5px
 }
+
+.btn-gray
+{
+    background-color: darkgray;
+    border-color: black
+}
+
+.btn-gray:hover
+{
+    background-color: dimgray;
+    border-color: black
+}
+
+.btn-gray:active
+{
+    background-color: black
+}

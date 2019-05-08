@@ -10,18 +10,38 @@
     <h1>@Model.Course.Name</h1>
     <h3>@Model.Course.Id</h3>
 </div>
-<h1>Assignments</h1>
+<div class="row">
+    <h1 class="col-md-10">Assignments</h1>
+    @if(User.IsInRole("professor"))
+    {
+        <a class="margin-top-20 pull-right col-md-2 btn btn-primary" href="@Url.Action("Create", "Assignments", new { Model.Course.Id })">Add Assignment</a>
+    }
+</div>
 <hr/>
 <div class="row">
-    @foreach(var assign in Model.Assignments)
+    @if(Model.Assignments.Any())
     {
-        <div class="well col-md-12 @if (assign.Second) { <text>warning</text> } else { <text>alert</text> }">
+        foreach(var assign in Model.Assignments)
+        {
+            if(assign.Second)
+            {
+                Html.Raw("<div class=\"well col-md-12 warning\">");
+            }
+            else
+            {
+                Html.Raw("<div class=\"well col-md-12 alert\">");
+            }
             <div class="col-md-6">
                 <h2>Assignment @((++i).ToString())</h2>
             </div>
             <div class="col-md-6">
-                <a href="@Url.Action("Index", "Assignment", new { Id = assign.First.Id })" class="btn btn-primary">Go to assignment page</a>
+                <a href="@Url.Action("Index", "Assignments", new { assign.First.Id })" class="btn btn-primary">Go to assignment page</a>
             </div>
-        </div>
+            Html.Raw("</div>");
+        }
+    }
+    else
+    {
+        <h4 class="col-md-offset-1">There are no assignments to this course....yet....</h4>
     }
 </div>

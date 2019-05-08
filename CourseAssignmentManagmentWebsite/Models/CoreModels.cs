@@ -68,5 +68,8 @@ namespace CourseAssignmentManagmentWebsite.Models
         [Column(Order = 1)]
         public string CourseId { get; set; }
         public virtual Course Course { get; set; }
+
+        [Required]
+        public bool IsEnrolled { get; set; }
     }
 }

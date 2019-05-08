@@ -1,5 +1,5 @@
 ﻿@using CourseAssignmentManagmentWebsite.Models;
-@model IQueryable<Course>
+@model IQueryable<Pair<bool, Course>>
 
 @{
     ViewBag.Title = "Courses";
@@ -20,18 +20,29 @@
 <div class="row">
     @if (Model.Any())
     {
-        foreach (Course c in Model)
+        foreach (var e in Model)
         {
         <div class="well col-md-12">
             <div class="col-md-10">
-                <h2>@c.Name</h2>
-                <h4>@c.Id</h4>
+                <h2>@e.Second.Name</h2>
+                <h4>@e.Second.Id</h4>
             </div>
             <div class="margin-top-20 col-md-2">
-                <a href="@Url.Action("Detail", "Courses", new { id = c.Id })" class="pull-right btn btn-block btn-primary">View Details</a>
-                @if (User.IsInRole("professor"))
+                @if (User.IsInRole("student"))
                 {
-                    <a href="@Url.Action("SetStudents", "Courses", new { id = c.Id })" class="margin-top-5 pull-right btn btn-block btn-primary">Set Students</a>
+                    if (e.First)
+                    {
+                        <a href="@Url.Action("Detail", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-primary">View Details</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="pull-right btn btn-block btn-default disabled">Awaiting Approval</a>
+                    }
+                }
+                else
+                {
+                    <a href="@Url.Action("Detail", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-primary">View Details</a>
+                    <a href="@Url.Action("SetStudents", "Courses", new { id = e.Second.Id })" class="pull-right btn btn-block btn-primary">Set Students</a>
                 }
             </div>
         </div>

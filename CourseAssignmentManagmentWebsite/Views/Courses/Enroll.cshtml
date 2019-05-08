@@ -1,0 +1,36 @@
+﻿@using CourseAssignmentManagmentWebsite.Models;
+@model Pair<string, IQueryable<Course>>
+@{
+    ViewBag.Title = "Enroll";
+}
+@if(!string.IsNullOrWhiteSpace(Model.First))
+{
+    <div class="row">
+        <div class="col-md-12"><h4 class="label-success">@Model.First</h4></div>
+    </div>
+}
+<div class="row">
+    <div class="margin-top-20 col-md-12"><h1>Available Courses</h1></div>
+</div>
+<hr />
+<div class="row">
+    @if (Model.Second.Any())
+    {
+        foreach (Course c in Model.Second)
+        {
+            <div class="well col-md-12">
+                <div class="col-md-10">
+                    <h2>@c.Name</h2>
+                    <h4>@c.Id</h4>
+                </div>
+                <div class="margin-top-20 col-md-2">
+                    <a href="@Url.Action("Enroll", "Courses", new { c.Id })" class="pull-right btn btn-block btn-success">Enroll</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-md-offset-1 col-md-11"><h4>There are no available courses right now, try again later</h4></div>
+    }
+</div>

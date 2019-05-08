@@ -195,6 +195,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AssignmentsController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -216,6 +217,10 @@
     <Compile Include="Migrations\201905080234423_EntityCleanUp.cs" />
     <Compile Include="Migrations\201905080234423_EntityCleanUp.Designer.cs">
       <DependentUpon>201905080234423_EntityCleanUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905081041328_Enroll.cs" />
+    <Compile Include="Migrations\201905081041328_Enroll.Designer.cs">
+      <DependentUpon>201905081041328_Enroll.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -293,6 +298,8 @@
     <Content Include="Views\Courses\Detail.cshtml" />
     <Content Include="Views\Courses\Create.cshtml" />
     <Content Include="Views\Courses\SetStudents.cshtml" />
+    <Content Include="Views\Assignments\Index.cshtml" />
+    <Content Include="Views\Courses\Enroll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -319,6 +326,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905080234423_EntityCleanUp.resx">
       <DependentUpon>201905080234423_EntityCleanUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081041328_Enroll.resx">
+      <DependentUpon>201905081041328_Enroll.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

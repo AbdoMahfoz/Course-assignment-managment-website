@@ -19,4 +19,9 @@ namespace CourseAssignmentManagmentWebsite.Models
         public string CourseID { get; set; }
         public string LastError { get; set; }
     }
+    public class CourseAssignmentViewModel
+    {
+        public Assignment Assignment { get; set; }
+        public IQueryable<Submission> Submissions { get; set; }
+    }
 }

@@ -12,6 +12,28 @@ namespace CourseAssignmentManagmentWebsite.Controllers
     public class AssignmentsController : Controller
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();
+        private bool ValidateAccess<T>(string CourseId)
+        {
+            string userId = User.Identity.GetUserId();
+            if(typeof(T) == typeof(Professor))
+            {
+                int id = (from e in db.Professors
+                          where e.ApplicationUserId == userId
+                          select e.Id).Single();
+                return (from e in db.Courses
+                        where e.ProfessorId == id && e.Id == CourseId
+                        select e).Any();
+            }
+            else
+            {
+                int studentId = (from e in db.Students
+                                 where e.ApplicationUserId == userId
+                                 select e.Id).Single();
+                return (from e in db.CourseStudents
+                        where e.StudentId == studentId && e.CourseId == CourseId && e.IsEnrolled == true
+                        select e).Any();
+            }
+        }
         // GET: Assignments
         public ActionResult Index(int Id)
         {
@@ -39,9 +61,34 @@ namespace CourseAssignmentManagmentWebsite.Controllers
             }
             return View(res);
         }
-        public ActionResult Create(int Id)
+        [Authorize(Roles="professor")]
+        public ActionResult Create(string Id)
         {
-            return View();
+            if (!ValidateAccess<Professor>(Id))
+            {
+                return RedirectToAction("Index", "Home", new { });
+            }
+            Assignment ass = new Assignment
+            {
+                CourseId = Id,
+                DateInitiated = DateTime.Now,
+            };
+            return View(ass);
+        }
+        [HttpPost]
+        [Authorize(Roles = "professor")]
+        public ActionResult Create(Assignment ass)
+        {
+            if(!ValidateAccess<Professor>(ass.CourseId))
+            {
+                return RedirectToAction("Index", "Home", new { });
+            }
+            ass.Statement = new byte[ass.file.ContentLength];
+            ass.file.InputStream.Read(ass.Statement, 0, ass.Statement.Length);
+            ass.StatementType = ass.file.ContentType;
+            db.Assignments.Add(ass);
+            db.SaveChanges();
+            return RedirectToAction("Detail", "Courses", new { Id = ass.CourseId });
         }
     }
 }

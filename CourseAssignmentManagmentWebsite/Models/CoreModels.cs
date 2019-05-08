@@ -32,12 +32,19 @@ namespace CourseAssignmentManagmentWebsite.Models
 
         [Required]
         [DataType(DataType.Upload)]
-        public byte[] Statment { get; set; }
+        public byte[] Statement { get; set; }
+
+        [NotMapped]
+        public HttpPostedFileBase file { get; set; }
+
+        [Required]
+        public string StatementType { get; set; }
 
         [Required]
         public DateTime DateInitiated { get; set; }
 
         [Required]
+        [Display(Name="Due Date")]
         public DateTime DateDue { get; set; }
     }
     public class Submission

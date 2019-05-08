@@ -13,6 +13,28 @@ namespace CourseAssignmentManagmentWebsite.Controllers
     public class CoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private bool ValidateAccess<T>(string CourseId)
+        {
+            string userId = User.Identity.GetUserId();
+            if (typeof(T) == typeof(Professor))
+            {
+                int id = (from e in db.Professors
+                          where e.ApplicationUserId == userId
+                          select e.Id).Single();
+                return (from e in db.Courses
+                        where e.ProfessorId == id && e.Id == CourseId
+                        select e).Any();
+            }
+            else
+            {
+                int studentId = (from e in db.Students
+                                 where e.ApplicationUserId == userId
+                                 select e.Id).Single();
+                return (from e in db.CourseStudents
+                        where e.StudentId == studentId && e.CourseId == CourseId && e.IsEnrolled == true
+                        select e).Any();
+            }
+        }
         // GET: Courses
         public ActionResult Index()
         {
@@ -60,13 +82,7 @@ namespace CourseAssignmentManagmentWebsite.Controllers
         [Authorize(Roles = "professor")]
         public ActionResult SetStudents(string Id)
         {
-            string userId = User.Identity.GetUserId();
-            int id = (from e in db.Professors
-                      where e.ApplicationUserId == userId
-                      select e.Id).Single();
-            if ((from e in db.Courses
-                 where e.ProfessorId == id && e.Id == Id
-                 select e).Any())
+            if(ValidateAccess<Professor>(Id))
             {
                 return View(new CourseSetStudentViewModel
                 {
@@ -89,13 +105,7 @@ namespace CourseAssignmentManagmentWebsite.Controllers
         [Authorize(Roles = "professor")]
         public ActionResult SetStudents(int NewStudentId, string CourseId)
         {
-            string userId = User.Identity.GetUserId();
-            int id = (from e in db.Professors
-                      where e.ApplicationUserId == userId
-                      select e.Id).Single();
-            if (!(from e in db.Courses
-                 where e.ProfessorId == id && e.Id == CourseId
-                 select e).Any())
+            if(!ValidateAccess<Professor>(CourseId))
             {
                 return RedirectToAction("Index");
             }
@@ -147,26 +157,14 @@ namespace CourseAssignmentManagmentWebsite.Controllers
         {
             if (User.IsInRole("student"))
             {
-                string userId = User.Identity.GetUserId();
-                int studentId = (from e in db.Students
-                                 where e.ApplicationUserId == userId
-                                 select e.Id).Single();
-                if (!(from e in db.CourseStudents
-                      where e.StudentId == studentId && e.CourseId == Id && e.IsEnrolled == true
-                      select e).Any())
+                if(!ValidateAccess<Student>(Id))
                 {
                     return RedirectToAction("Index");
                 }
             }
             else
             {
-                string userId = User.Identity.GetUserId();
-                int id = (from e in db.Professors
-                          where e.ApplicationUserId == userId
-                          select e.Id).Single();
-                if (!(from e in db.Courses
-                      where e.ProfessorId == id && e.Id == Id
-                      select e).Any())
+                if(!ValidateAccess<Professor>(Id))
                 {
                     return RedirectToAction("Index");
                 }

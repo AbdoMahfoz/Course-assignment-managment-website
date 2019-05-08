@@ -222,6 +222,14 @@
     <Compile Include="Migrations\201905081041328_Enroll.Designer.cs">
       <DependentUpon>201905081041328_Enroll.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905081339564_IDontKnowWhatDidIDo.cs" />
+    <Compile Include="Migrations\201905081339564_IDontKnowWhatDidIDo.Designer.cs">
+      <DependentUpon>201905081339564_IDontKnowWhatDidIDo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905081401107_StatementTyoeInAssignment.cs" />
+    <Compile Include="Migrations\201905081401107_StatementTyoeInAssignment.Designer.cs">
+      <DependentUpon>201905081401107_StatementTyoeInAssignment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -300,6 +308,7 @@
     <Content Include="Views\Courses\SetStudents.cshtml" />
     <Content Include="Views\Assignments\Index.cshtml" />
     <Content Include="Views\Courses\Enroll.cshtml" />
+    <Content Include="Views\Assignments\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -329,6 +338,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905081041328_Enroll.resx">
       <DependentUpon>201905081041328_Enroll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081339564_IDontKnowWhatDidIDo.resx">
+      <DependentUpon>201905081339564_IDontKnowWhatDidIDo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081401107_StatementTyoeInAssignment.resx">
+      <DependentUpon>201905081401107_StatementTyoeInAssignment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -1,0 +1,27 @@
+﻿@model CourseAssignmentManagmentWebsite.Models.Assignment
+
+@{
+    ViewBag.Title = "Add Assignment";
+}
+
+<h2>Add Assignment</h2>
+
+<form class="margin-top-20" action="" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="CourseId" value="@Model.CourseId" />
+    <input type="hidden" name="DateInitiated" value="@Model.DateInitiated" />
+    <div class="row form-group">
+        <label class="control-label col-md-2" for="DateDue">Due Date:</label>
+        <div class="col-md-10">
+            <input type="datetime" class="form-control" name="DateDue" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="control-label col-md-2" for="file">Filename:</label>
+        <div class="col-md-10">
+            <input type="file" name="file" id="file" />
+        </div>
+    </div>
+    <div class="row">
+        <input class="btn btn-default col-md-offset-2" type="submit" value="Create Assignment">
+    </div>
+</form>

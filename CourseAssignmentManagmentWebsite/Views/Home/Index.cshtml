@@ -1,10 +1,24 @@
-﻿@{
+﻿@using CourseAssignmentManagmentWebsite.Models;
+@using Microsoft.AspNet.Identity;
+@{
     ViewBag.Title = "Home Page";
+    Student student = null;
+    if(User.IsInRole("student"))
+    {
+        var userId = User.Identity.GetUserId();
+        student = (from e in new ApplicationDbContext().Students
+                   where e.ApplicationUserId == userId
+                   select e).Single();
+    }
 }
 
 <div class="jumbotron">
     <h1>Welcome :)</h1>
     <p class="lead">Course assignment managment website is built by students, with love, to students.</p>
+    @if(User.IsInRole("student"))
+    {
+        <p class="lead">If the professor asked you for an ID, your ID is @student.Id</p>
+    }
 </div>
 
 <div class="row">
@@ -15,14 +29,14 @@
             <p>
                 Click the button below to view all of the courses you are registered to.
             </p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">View all courses</a></p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Courses")">View all courses</a></p>
         </div>
         <div class="col-md-6">
             <h2>View my submissions</h2>
             <p>
                 Click the button below all of your submissions in all of your registered courses
             </p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">My submissions</a></p>
+            <p><a class="btn btn-default" href="#">My submissions</a></p>
         </div>
     }
     else
@@ -32,14 +46,14 @@
             <p>
                 Click the button below to view all of the courses you teach.
             </p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">View all courses</a></p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Courses")">View all courses</a></p>
         </div>
         <div class="col-md-6">
             <h2>View new submissions</h2>
             <p>
                 Click the button below to show all un-processed submissions in all of your courses
             </p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">New submissions</a></p>
+            <p><a class="btn btn-default" href="#">New submissions</a></p>
         </div>
     }
 </div>

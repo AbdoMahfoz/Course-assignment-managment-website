@@ -1,0 +1,56 @@
+﻿
+@using CourseAssignmentManagmentWebsite.Models;
+@model CourseSetStudentViewModel
+@{
+    ViewBag.Title = "Students of " + Model.CourseID;
+}
+
+
+<div class="row">
+    <div class="margin-top-20 col-md-offset-2 col-md-10">
+        <h1>Add students to your course by typing thier ids</h1>
+    </div>
+</div>
+<div class="margin-top-40 row">
+    <div class="margin-top-20 col-md-6">
+        @if (Model.Students.Any())
+        {
+            <h4>Currently registered students</h4>
+            <ul>
+                @foreach (Student s in Model.Students)
+                {
+                    <li>@s.Name</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <h4>This course has no registered students</h4>
+        }
+    </div>
+    <div class="col-md-6">
+        @if(!string.IsNullOrWhiteSpace(Model.LastError))
+        {
+            <h4 class="alert-danger">@Model.LastError</h4>
+        }
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="CourseId" value="@Model.CourseID"/>
+            <div class="margin-top-40 form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NewStudentId, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.NewStudentId, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-3">
+                        <input type="submit" value="Add Student" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

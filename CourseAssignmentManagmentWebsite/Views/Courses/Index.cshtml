@@ -8,22 +8,46 @@
 <div class="row">
     @if (User.IsInRole("student"))
     {
-        <div class="col-md-12"><h1>Registerd Courses</h1></div>
+        <div class="margin-top-20 col-md-12"><h1>Registered Courses</h1></div>
     }
     else
     {
-        <div class="col-md-12"><h1>Owned Courses</h1></div>
+        <div class="margin-top-20 col-md-10"><h1>Owned Courses</h1></div>
+        <div class="margin-top-40 col-md-2"><a href="@Url.Action("Create", "Courses")" class="pull-right btn btn-block btn-primary">Create course</a></div>
     }
-    @foreach(Course c in Model)
+</div>
+<hr/>
+<div class="row">
+    @if (Model.Any())
     {
+        foreach (Course c in Model)
+        {
         <div class="well col-md-12">
-            <div class="col-md-6">
+            <div class="col-md-10">
                 <h2>@c.Name</h2>
                 <h4>@c.Id</h4>
             </div>
-            <div class="margin-top-20 col-md-6">
-                <a href="@Url.Action("Courses", new { id = c.Id })" class="pull-right align-center btn btn-primary">View Details</a>
+            <div class="margin-top-20 col-md-2">
+                <a href="@Url.Action("Detail", "Courses", new { id = c.Id })" class="pull-right btn btn-block btn-primary">View Details</a>
+                @if (User.IsInRole("professor"))
+                {
+                    <a href="@Url.Action("SetStudents", "Courses", new { id = c.Id })" class="margin-top-5 pull-right btn btn-block btn-primary">Set Students</a>
+                }
             </div>
+        </div>
+        }
+    }
+    else
+    {
+        <div class="col-md-12">
+            @if(User.IsInRole("student"))
+            {
+                <text>You are not registered to any courses, please contact your professor to register you in one.</text>
+            }
+            else
+            {
+                <text>You don't own any courses on this website yet, click on create course button to create one.</text>
+            }
         </div>
     }
 </div>

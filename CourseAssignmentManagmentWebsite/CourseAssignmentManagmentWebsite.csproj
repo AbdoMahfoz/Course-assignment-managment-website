@@ -213,12 +213,18 @@
     <Compile Include="Migrations\201905072039092_Tied courses to students and professors.Designer.cs">
       <DependentUpon>201905072039092_Tied courses to students and professors.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905080234423_EntityCleanUp.cs" />
+    <Compile Include="Migrations\201905080234423_EntityCleanUp.Designer.cs">
+      <DependentUpon>201905080234423_EntityCleanUp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CoreModels.cs" />
+    <Compile Include="Models\CourseViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -285,6 +291,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Courses\Detail.cshtml" />
+    <Content Include="Views\Courses\Create.cshtml" />
+    <Content Include="Views\Courses\SetStudents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -308,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905072039092_Tied courses to students and professors.resx">
       <DependentUpon>201905072039092_Tied courses to students and professors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905080234423_EntityCleanUp.resx">
+      <DependentUpon>201905080234423_EntityCleanUp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

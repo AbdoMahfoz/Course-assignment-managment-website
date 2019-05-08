@@ -10,72 +10,63 @@ namespace CourseAssignmentManagmentWebsite.Models
     public class Course
     {
         [Key]
+        [Display(Name="Course ID")]
         public string Id { get; set; }
+
         [Required]
+        [Display(Name="Course Name")]
         public string Name { get; set; }
+
+        [Required]
+        public int ProfessorId { get; set; }
+        public virtual Professor Professor { get; set; }
     }
     public class Assignment
     {
         [Key]
         public int Id { get; set; }
-        public virtual Course Course { get; set; }
+
+        [Required]
         public string CourseId { get; set; }
+        public virtual Course Course { get; set; }
+
         [Required]
         [DataType(DataType.Upload)]
         public byte[] Statment { get; set; }
+
+        [Required]
+        public DateTime DateInitiated { get; set; }
+
+        [Required]
+        public DateTime DateDue { get; set; }
     }
     public class Submission
     {
         [Key]
         public int Id { get; set; }
-        public virtual Assignment Assignment { get; set; }
+
+        [Required]
         public int AssignmentId { get; set; }
+        public virtual Assignment Assignment { get; set; }
+
+        [Required]
+        public int StudentId { get; set; }
+        public virtual Student Student { get; set; }
+
         [Required]
         [DataType(DataType.Upload)]
         public byte[] Solution { get; set; }
     }
-    public class CourseAssignment
-    {
-        public virtual Course Course { get; set; }
-        public virtual Assignment Assignment { get; set; }
-        [Key]
-        [Column(Order = 0)]
-        public string CourseId { get; set; }
-        [Key]
-        [Column(Order = 1)]
-        public int AssignmentId { get; set; }
-    }
-    public class AssignmentSubmission
-    {
-        public virtual Assignment Assignment { get; set; }
-        public virtual Submission Submission { get; set; }
-        [Key]
-        [Column(Order = 0)]
-        public int AssignmentId { get; set; }
-        [Key]
-        [Column(Order = 1)]
-        public int SubmissionId { get; set; }
-    }
     public class CourseStudent
     {
-        public virtual Course Course { get; set; }
-        public virtual Student Student { get; set; }
         [Key]
         [Column(Order = 0)]
         public int StudentId { get; set; }
+        public virtual Student Student { get; set; }
+
         [Key]
         [Column(Order = 1)]
         public string CourseId { get; set; }
-    }
-    public class CourseProfessor
-    {
         public virtual Course Course { get; set; }
-        public virtual Professor Professor { get; set; }
-        [Key]
-        [Column(Order = 0)]
-        public int ProfessorId { get; set; }
-        [Key]
-        [Column(Order = 1)]
-        public string CourseId { get; set; }
     }
 }

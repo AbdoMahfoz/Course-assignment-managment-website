@@ -39,5 +39,9 @@ namespace CourseAssignmentManagmentWebsite.Controllers
             }
             return View(res);
         }
+        public ActionResult Create(int Id)
+        {
+            return View();
+        }
     }
 }

@@ -13,7 +13,8 @@ namespace CourseAssignmentManagmentWebsite.Models
     }
     public class CourseSetStudentViewModel
     {
-        public IQueryable<Student> Students { get; set; }
+        public IQueryable<Student> RegisteredStudents { get; set; }
+        public IQueryable<Student> PendingStudents { get; set; }
         [Display(Name="Student ID")]
         public int NewStudentId { get; set; }
         public string CourseID { get; set; }

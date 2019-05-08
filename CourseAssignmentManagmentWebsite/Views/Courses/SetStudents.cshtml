@@ -12,12 +12,12 @@
     </div>
 </div>
 <div class="margin-top-40 row">
-    <div class="margin-top-20 col-md-6">
-        @if (Model.Students.Any())
+    <div class="margin-top-20 col-md-4">
+        <h4>Currently registered students</h4>
+        @if (Model.RegisteredStudents.Any())
         {
-            <h4>Currently registered students</h4>
             <ul>
-                @foreach (Student s in Model.Students)
+                @foreach (Student s in Model.RegisteredStudents)
                 {
                     <li>@s.Name</li>
                 }
@@ -25,27 +25,49 @@
         }
         else
         {
-            <h4>This course has no registered students</h4>
+            <p>This course has no registered students</p>
         }
     </div>
-    <div class="col-md-6">
+    <div class="margin-top-20 col-md-4">
+        <h4>Pending enrollments(Click to accept)</h4>
+        @if(Model.PendingStudents.Any())
+        {
+            <ul>
+                @foreach(Student s in Model.PendingStudents)
+                {
+                    <li>
+                        @using (Html.BeginForm(new { Model.CourseID, NewStudentId = s.Id }))
+                        {
+                            <input type="submit" value="@s.Name" class="btn btn-link" />
+                        }
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No pending enrollments. Ask your students to enroll to your course</p>
+        }
+    </div>
+    <div class="margin-top-20 col-md-4">
         @if(!string.IsNullOrWhiteSpace(Model.LastError))
         {
             <h4 class="alert-danger">@Model.LastError</h4>
         }
         @using (Html.BeginForm())
         {
+            <h4>Manual insertion</h4>
             @Html.AntiForgeryToken()
             <input type="hidden" name="CourseId" value="@Model.CourseID"/>
-            <div class="margin-top-40 form-horizontal">
+            <div class="form-horizontal">
                 <div class="form-group">
                     @Html.LabelFor(model => model.NewStudentId, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         @Html.EditorFor(model => model.NewStudentId, new { htmlAttributes = new { @class = "form-control" } })
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-3 col-md-3">
+                    <div class="col-md-offset-2 col-md-2">
                         <input type="submit" value="Add Student" class="btn btn-primary" />
                     </div>
                 </div>

@@ -23,17 +23,30 @@
     {
         foreach(var assign in Model.Assignments)
         {
-            <div class="well @(User.IsInRole("professor") ? "" : (assign.Second ? "green-back" : "red-back")) col-md-12">
+            <div class="well col-md-12">
                 <div class="col-md-10">
-                    <h2 style="@(User.IsInRole("professor") ? "" : "color:white")">Assignment @((++i).ToString())</h2>
-                </div>
-                <div class="col-md-2">
-                    <a href="@Url.Action("Statement", "Assignments", new { assign.First.Id })" class="btn btn-block btn-default">Download assignment</a>
+                    <h2>Assignment @((++i).ToString())</h2>
                     @if (User.IsInRole("professor"))
                     {
-                        <a href="@Url.Action("Index", "Assignments", new { assign.First.Id })" class="btn btn-block btn-default">View solutions</a>
+                        <p>Total submissions = @assign.TotalSubmissions</p>
+                        <p>Graded = @assign.GradedSubmissions</p>
                     }
-                    else if(!assign.Second)
+                    else
+                    {
+                        <p>Solution @(!assign.Submitted ? "not" : "") submitted</p>
+                        if(assign.Submitted)
+                        {
+                            <p>@(!string.IsNullOrWhiteSpace(assign.Grade)? $"Graded = {assign.Grade}" : "Pending Grading")</p>
+                        }
+                    }
+                </div>
+                <div class="col-md-2">
+                    <a href="@Url.Action("Statement", "Assignments", new { assign.Assignment.Id })" class="btn btn-block btn-default">Download assignment</a>
+                    @if (User.IsInRole("professor"))
+                    {
+                        <a href="@Url.Action("Index", "Assignments", new { assign.Assignment.Id })" class="btn btn-block btn-default">View solutions</a>
+                    }
+                    else if(!assign.Submitted)
                     {
                         <div class="dropdown show">
                             <a class="btn btn-default btn-block dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,7 +55,7 @@
                             </a>
                             <div class="dropdown-menu row" aria-labelledby="dropdownMenuLink">
                                 <div class="col-md-12">
-                                    <form method="post" action="/Assignments/Solution/@assign.First.Id" enctype="multipart/form-data">
+                                    <form method="post" action="/Assignments/Solution/@assign.Assignment.Id" enctype="multipart/form-data">
                                             <input type="file" name="file" id="file" />
                                             <input type="submit" class="margin-top-20 btn btn-block btn-primary" value="Upload" />
                                     </form>
@@ -50,7 +63,7 @@
                             </div>
                         </div>
                     }
-                    <a href="@Url.Action("Forum", "Assignments", new { assign.First.Id })" class="btn btn-block btn-default">View forum</a>
+                    <a href="@Url.Action("Forum", "Assignments", new { assign.Assignment.Id })" class="btn btn-block btn-default">View forum</a>
                 </div>
             </div>
         }

@@ -8,8 +8,16 @@ namespace CourseAssignmentManagmentWebsite.Models
 {
     public class CourseDetailViewModel
     {
+        public class Detail
+        {
+            public Assignment Assignment { get; set; }
+            public int TotalSubmissions { get; set; }
+            public int GradedSubmissions { get; set; }
+            public bool Submitted { get; set; }
+            public string Grade { get; set; }
+        }
         public Course Course { get; set; }
-        public IQueryable<Pair<Assignment, bool>> Assignments { get; set; }
+        public IQueryable<Detail> Assignments { get; set; }
     }
     public class CourseSetStudentViewModel
     {
@@ -24,5 +32,6 @@ namespace CourseAssignmentManagmentWebsite.Models
     {
         public Assignment Assignment { get; set; }
         public IQueryable<Submission> Submissions { get; set; }
+        public bool ShowGraded { get; set; }
     }
 }

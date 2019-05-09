@@ -42,7 +42,7 @@ namespace CourseAssignmentManagmentWebsite.Controllers
                     select e.Id).Single();
         }
         [Authorize(Roles = "professor")]
-        public ActionResult Index(int Id)
+        public ActionResult Index(int Id, bool ShowGraded = true)
         {
             var res = new CourseAssignmentViewModel
             {
@@ -51,7 +51,8 @@ namespace CourseAssignmentManagmentWebsite.Controllers
                               select entity).Single(),
                 Submissions = from entity in db.Submissions
                               where entity.AssignmentId == Id
-                              select entity
+                              select entity,
+                ShowGraded = ShowGraded
             };
             return View(res);
         }
@@ -96,6 +97,21 @@ namespace CourseAssignmentManagmentWebsite.Controllers
             }
             return File(assignment.Statement, assignment.StatementType);
         }
+        [Authorize(Roles="professor")]
+        public ActionResult Solution(int StudentId, int AssignmentId)
+        {
+            string courseId = (from e2 in db.Assignments
+                               where e2.Id == AssignmentId
+                               select e2.CourseId).Single();
+            if(!ValidateAccess<Professor>(courseId))
+            {
+                return RedirectToAction("Index", "Courses");
+            }
+            var submission = (from e in db.Submissions
+                              where e.AssignmentId == AssignmentId && e.StudentId == StudentId
+                              select e).Single();
+            return File(submission.Solution, submission.SolutionType);
+        }
         [HttpPost]
         [Authorize(Roles="student")]
         public ActionResult Solution(int Id, HttpPostedFileBase file)
@@ -129,6 +145,21 @@ namespace CourseAssignmentManagmentWebsite.Controllers
             db.Submissions.Add(submission);
             db.SaveChanges();
             return RedirectToAction("Detail", "Courses", new { Id = assignment.CourseId });
+        }
+        [HttpPost]
+        [Authorize(Roles = ("professor"))]
+        public ActionResult Grade(int SubmissionId, string Grade)
+        {
+            var submission = (from e in db.Submissions
+                              where e.Id == SubmissionId
+                              select e).Single();
+            if(!ValidateAccess<Professor>(submission.Assignment.CourseId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            submission.Grade = Grade;
+            db.SaveChanges();
+            return RedirectToAction("Index", "Assignments", new { Id = submission.AssignmentId });
         }
     }
 }

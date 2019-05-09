@@ -234,6 +234,14 @@
     <Compile Include="Migrations\201905082015351_AddedSubmissionTypeColumn.Designer.cs">
       <DependentUpon>201905082015351_AddedSubmissionTypeColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905082235197_Grades.cs" />
+    <Compile Include="Migrations\201905082235197_Grades.Designer.cs">
+      <DependentUpon>201905082235197_Grades.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905082240067_Grades in a separate table was a bad idea.cs" />
+    <Compile Include="Migrations\201905082240067_Grades in a separate table was a bad idea.Designer.cs">
+      <DependentUpon>201905082240067_Grades in a separate table was a bad idea.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -351,6 +359,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905082015351_AddedSubmissionTypeColumn.resx">
       <DependentUpon>201905082015351_AddedSubmissionTypeColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905082235197_Grades.resx">
+      <DependentUpon>201905082235197_Grades.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905082240067_Grades in a separate table was a bad idea.resx">
+      <DependentUpon>201905082240067_Grades in a separate table was a bad idea.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

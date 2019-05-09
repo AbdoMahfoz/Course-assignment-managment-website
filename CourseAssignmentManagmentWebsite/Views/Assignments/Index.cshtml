@@ -1,7 +1,77 @@
-﻿
+﻿@using CourseAssignmentManagmentWebsite.Models;
+@model CourseAssignmentViewModel
 @{
     ViewBag.Title = "Index";
+    int count = 0;
+    if(Model.ShowGraded)
+    {
+        count = Model.Submissions.Count();
+    }
+    else
+    {
+        count = (from e in Model.Submissions
+                 where e.Grade == ""
+                 select e).Count();
+    }
 }
 
-<h2>Index</h2>
-
+<div class="row">
+    <div class="col-md-9">
+        <h1>Solutions</h1>
+        @if(Model.Submissions.Any())
+        {
+            <p>Showing @count solution(s) out of @Model.Submissions.Count()</p>
+        }
+    </div>
+    <div class="margin-top-40 col-md-3">
+        <a class="btn btn-default pull-right btn-block" href="@Url.Action("Index", "Assignments", new { ShowGraded = !Model.ShowGraded })">
+            @(Model.ShowGraded ? "Hide" : "Show") graded solutions
+        </a>
+    </div>
+</div>
+<hr/>
+@if ((Model.ShowGraded && Model.Submissions.Any()) || (!Model.ShowGraded && count > 0))
+{
+    foreach (var sub in Model.Submissions.ToArray())
+    {
+        if(!Model.ShowGraded && !string.IsNullOrEmpty(sub.Grade))
+        {
+            continue;
+        }
+        <div class="margin-top-20 well row">
+            <div class="col-md-9">
+                <h3>@sub.Student.Name</h3>
+                @if (string.IsNullOrWhiteSpace(sub.Grade))
+                {
+                    <p>Pending grading</p>
+                }
+                else
+                {
+                    <p>Graded: @sub.Grade</p>
+                }
+            </div>
+            <div class="col-md-3">
+                <a href="@Url.Action("Solution", "Assignments", new { sub.StudentId, sub.AssignmentId })" class="margin-top-20 pull-right btn btn-block btn-default">Download Solution</a>
+            </div>
+            <div class="col-md-3 dropdown show">
+                <a class="btn btn-default btn-block dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Grade Solution
+                    <span class="glyphicon glyphicon-menu-down" />
+                </a>
+                <div class="dropdown-menu row" aria-labelledby="dropdownMenuLink">
+                    <div class="col-md-12">
+                        <form method="post" action="/Assignments/Grade" enctype="multipart/form-data">
+                            <input type="hidden" name="SubmissionId" value="@sub.Id" />
+                            <input type="text" class="form-control" name="Grade" placeholder="Enter Grade" />
+                            <input type="submit" class="margin-top-20 btn btn-block btn-primary" value="Update Grade" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h4>There are no @(!Model.ShowGraded ? "un-graded" : "") submissions to this assignment</h4>
+}

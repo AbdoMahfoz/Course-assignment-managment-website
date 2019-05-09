@@ -184,12 +184,15 @@ namespace CourseAssignmentManagmentWebsite.Controllers
                     Assignments = from entity in db.Assignments
                                   where entity.CourseId == Id
                                   orderby entity.Id ascending
-                                  select new Pair<Assignment, bool>
+                                  select new CourseDetailViewModel.Detail
                                   {
-                                      First = entity,
-                                      Second = (from e in db.Submissions
-                                                where e.AssignmentId == entity.Id && e.StudentId == studentId
-                                                select e).Any()
+                                      Assignment = entity,
+                                      Submitted = (from e in db.Submissions
+                                                   where e.AssignmentId == entity.Id && e.StudentId == studentId
+                                                   select e).Any(),
+                                      Grade = (from e in db.Submissions
+                                               where e.AssignmentId == entity.Id && e.StudentId == studentId
+                                               select e.Grade).FirstOrDefault()
                                   }
                 });
             }
@@ -208,12 +211,16 @@ namespace CourseAssignmentManagmentWebsite.Controllers
                     Assignments = from entity in db.Assignments
                                   where entity.CourseId == Id
                                   orderby entity.Id ascending
-                                  select new Pair<Assignment, bool>
+                                  select new CourseDetailViewModel.Detail
                                   {
-                                      First = entity,
-                                      Second = (from e in db.Submissions
-                                                where e.AssignmentId == entity.Id && e.StudentId == professorId
-                                                select e).Any()
+                                      Assignment = entity,
+                                      TotalSubmissions = (from e in db.Submissions
+                                                          where e.AssignmentId == entity.Id
+                                                          select e).Count(),
+                                      GradedSubmissions = (from e in db.Submissions
+                                                           where e.AssignmentId == entity.Id && e.Grade != "" && e.Grade != null
+                                                           select e).Count(),
+
                                   }
                 });
             }

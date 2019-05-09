@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201905082240067_Grades in a separate table was a bad idea.Designer.cs">
       <DependentUpon>201905082240067_Grades in a separate table was a bad idea.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905090331096_RemovedForum.cs" />
+    <Compile Include="Migrations\201905090331096_RemovedForum.Designer.cs">
+      <DependentUpon>201905090331096_RemovedForum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -365,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905082240067_Grades in a separate table was a bad idea.resx">
       <DependentUpon>201905082240067_Grades in a separate table was a bad idea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905090331096_RemovedForum.resx">
+      <DependentUpon>201905090331096_RemovedForum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
